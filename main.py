@@ -64,8 +64,8 @@ def create_changelog_file(repo, release_tag_name, url, release_body):
     changelog.write("\n\n<br>\n\n")
 
 if __name__ == "__main__":
-  print(github_repositories.replace('\n',''))
-  for github_repository in github_repositories.replace('\n','').split(','):
+  print(github_repositories.replace('\n','').strip())
+  for github_repository in github_repositories.replace('\n','').strip().split(','):
     owner   = github_repository.split('/')[0]
     repo    = github_repository.split('/')[1]
     release = get_release(owner, repo, include_prerelease)
