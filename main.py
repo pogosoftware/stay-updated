@@ -6,8 +6,8 @@ import boto3
 
 aws_region          = os.getenv('AWS_REGION')
 github_repositories = os.getenv('GITHUB_REPOSITORIES')
-include_prerelease  = os.getenv('INCLUDE_PRERELEASE', "False")
-environment         = os.getenv('ENV', "dev")
+include_prerelease  = os.getenv('INCLUDE_PRERELEASE')
+environment         = os.getenv('ENV')
 
 dynamodb_versions = boto3.resource('dynamodb', region_name=aws_region).Table(f'stay_updated_{environment}')
 
@@ -61,7 +61,7 @@ def create_changelog_file(repo, release_tag_name, url, release_body):
     changelog.write("\n\n<br>\n\n")
 
 if __name__ == "__main__":
-  for github_repository in github_repositories.split(','):
+  for github_repository in github_repositories.replace('\n','').split(','):
     owner   = github_repository.split('/')[0]
     repo    = github_repository.split('/')[1]
     release = get_release(owner, repo, include_prerelease)
@@ -73,6 +73,5 @@ if __name__ == "__main__":
 
       if version_to_int(release['tag_name']) > get_version(repo):
         print(f'There is new {owner}/{repo} version:', release_tag_name)
-        #update_version(repo, release_tag_name)
+        update_version(repo, release_tag_name)
         create_changelog_file(repo, release_tag_name, url, release_body)
-        
