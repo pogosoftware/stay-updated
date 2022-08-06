@@ -4,8 +4,8 @@ from datetime import date
 import requests
 import boto3
 
-aws_region          = os.getenv('AWS_REGION', "eu-north-1")
-github_repositories = os.getenv('GITHUB_REPOSITORIES')
+aws_region          = os.getenv('AWS_REGION')
+github_repositories = os.getenv('GITHUB_REPOSITORIES', "hashicorp/terraform-provider-aws,digitalocean/terraform-provider-digitalocean")
 include_prerelease  = os.getenv('INCLUDE_PRERELEASE', "False")
 environment         = os.getenv('ENV', "dev")
 
