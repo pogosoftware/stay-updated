@@ -1,4 +1,5 @@
 name: run main.py manually
+on: [push]
 
 env:
   ENV: dev
