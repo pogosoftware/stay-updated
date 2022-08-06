@@ -2,8 +2,6 @@ name: run main.py manually
 
 on:
   push:
-    branches:
-      - develop
 
 env:
   ENV: dev
