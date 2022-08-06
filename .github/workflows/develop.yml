@@ -5,7 +5,9 @@ on:
 
 env:
   ENV: dev
-  GITHUB_REPOSITORIES: "hashicorp/terraform-provider-aws,digitalocean/terraform-provider-digitalocean"
+  GITHUB_REPOSITORIES: |
+    "hashicorp/terraform-provider-aws,
+    digitalocean/terraform-provider-digitalocean"
         
 jobs:
   deployment:
