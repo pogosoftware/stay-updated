@@ -4,10 +4,10 @@ from datetime import date
 import requests
 import boto3
 
-aws_region          = os.getenv('AWS_REGION')
+aws_region          = os.getenv('AWS_REGION', "eu-north-1")
 github_repositories = os.getenv('GITHUB_REPOSITORIES')
-include_prerelease  = os.getenv('INCLUDE_PRERELEASE')
-environment         = os.getenv('ENV')
+include_prerelease  = os.getenv('INCLUDE_PRERELEASE', "False")
+environment         = os.getenv('ENV', "dev")
 
 dynamodb_versions = boto3.resource('dynamodb', region_name=aws_region).Table(f'stay_updated_{environment}')
 
@@ -19,9 +19,6 @@ def version_to_int(tag_name):
 def get_release(owner, repo, include_prerelease):
   headers  = {'Accept': 'application/vnd.github.v3+json'}
   response = requests.get(f'https://api.github.com/repos/{owner}/{repo}/releases/latest', headers=headers).json()
-  print(response)
-  print(owner)
-  print(repo)
   is_prerelease = bool(response["prerelease"])
   if (include_prerelease == False & is_prerelease == True):
     return ''
@@ -76,6 +73,6 @@ if __name__ == "__main__":
 
       if version_to_int(release['tag_name']) > get_version(repo):
         print(f'There is new {owner}/{repo} version:', release_tag_name)
-        update_version(repo, release_tag_name)
+        #update_version(repo, release_tag_name)
         create_changelog_file(repo, release_tag_name, url, release_body)
         
