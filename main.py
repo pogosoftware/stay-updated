@@ -19,7 +19,9 @@ def version_to_int(tag_name):
 def get_release(owner, repo, include_prerelease):
   headers  = {'Accept': 'application/vnd.github.v3+json'}
   response = requests.get(f'https://api.github.com/repos/{owner}/{repo}/releases/latest', headers=headers).json()
-  
+  print(response)
+  print(owner)
+  print(repo)
   is_prerelease = bool(response["prerelease"])
   if (include_prerelease == False & is_prerelease == True):
     return ''
