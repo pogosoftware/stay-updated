@@ -10,9 +10,6 @@ include_prerelease  = os.getenv('INCLUDE_PRERELEASE', "false")
 environment         = os.getenv('ENV', "dev")
 
 dynamodb_versions = boto3.resource('dynamodb', region_name=aws_region).Table(f'stay_updated_{environment}')
-# github_repositories = """hashicorp/terraform-provider-aws, 
-# digitalocean/terraform-provider-digitalocean
-# """
 
 # Convert tag name to version ex. v4.0 -> 40
 def version_to_int(tag_name):
@@ -64,7 +61,6 @@ def create_changelog_file(repo, release_tag_name, url, release_body):
     changelog.write("\n\n<br>\n\n")
 
 if __name__ == "__main__":
-  print(github_repositories.replace('\n','').strip())
   for github_repository in github_repositories.replace('\n','').strip().split(','):
     owner   = github_repository.split('/')[0]
     repo    = github_repository.split('/')[1]
@@ -77,5 +73,5 @@ if __name__ == "__main__":
 
       if version_to_int(release['tag_name']) > get_version(repo):
         print(f'There is new {owner}/{repo} version:', release_tag_name)
-        #update_version(repo, release_tag_name)
+        update_version(repo, release_tag_name)
         create_changelog_file(repo, release_tag_name, url, release_body)
