@@ -6,10 +6,7 @@ on:
 env:
   ENV: dev
   INCLUDE_PRERELEASE: False
-  GITHUB_REPOSITORIES: [
-    'hashicorp/terraform-provider-aws',
-    'digitalocean/terraform-provider-digitalocean'
-  ]
+  GITHUB_REPOSITORIES: [hashicorp/terraform-provider-aws,digitalocean/terraform-provider-digitalocean]
         
 jobs:
   deployment:
