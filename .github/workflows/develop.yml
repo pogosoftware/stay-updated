@@ -1,0 +1,34 @@
+name: run main.py manually
+
+env:
+  ENV: dev
+  INCLUDE_PRERELEASE: False
+  GITHUB_REPOSITORIES:
+    - hashicorp/terraform-provider-aws
+    - digitalocean/terraform-provider-digitalocean
+        
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo content
+        uses: actions/checkout@v2
+
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          
+      - name: install python packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          
+      - name: execute py script
+        environment:
+          name: Development
+        env:
+          AWS_REGION: eu-north-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+        run: python main.py
