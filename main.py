@@ -4,13 +4,16 @@ from datetime import date
 import requests
 import boto3
 
-aws_region          = os.getenv('AWS_REGION')
+aws_region          = os.getenv('AWS_REGION', "eu-north-1")
 github_repositories = os.getenv('GITHUB_REPOSITORIES')
-include_prerelease  = os.getenv('INCLUDE_PRERELEASE')
-environment         = os.getenv('ENV')
+include_prerelease  = os.getenv('INCLUDE_PRERELEASE', "false")
+environment         = os.getenv('ENV', "dev")
 
 dynamodb_versions = boto3.resource('dynamodb', region_name=aws_region).Table(f'stay_updated_{environment}')
-
+# github_repositories = """hashicorp/terraform-provider-aws, 
+# digitalocean/terraform-provider-digitalocean
+# """
+print(github_repositories.replace('\n',''))
 # Convert tag name to version ex. v4.0 -> 40
 def version_to_int(tag_name):
   return int(tag_name.replace("v", "").replace(".",""))
@@ -73,5 +76,5 @@ if __name__ == "__main__":
 
       if version_to_int(release['tag_name']) > get_version(repo):
         print(f'There is new {owner}/{repo} version:', release_tag_name)
-        update_version(repo, release_tag_name)
+        #update_version(repo, release_tag_name)
         create_changelog_file(repo, release_tag_name, url, release_body)
