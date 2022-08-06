@@ -5,7 +5,7 @@ import requests
 import boto3
 
 aws_region          = os.getenv('AWS_REGION')
-github_repositories = os.getenv('GITHUB_REPOSITORIES', "hashicorp/terraform-provider-aws,digitalocean/terraform-provider-digitalocean")
+github_repositories = os.getenv('GITHUB_REPOSITORIES')
 include_prerelease  = os.getenv('INCLUDE_PRERELEASE', "False")
 environment         = os.getenv('ENV', "dev")
 
